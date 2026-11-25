@@ -1,15 +1,10 @@
-// ==========================================
-// KOVA BEAUTY STORE - PRODUCT, CART & WISHLIST
-// ==========================================
 
-// DOM Elements
 const productsContainer = document.querySelector("#product-container");
 const cartCount = document.querySelector("#cart-count");
 const wishlistCount = document.querySelector("#wishlist-count");
 const searchForm = document.querySelector("#search-form");
 const searchInput = document.querySelector("#search-input");
 
-// Store Data
 let products = [];
 let cart = readStorage("kovaCart", []);
 let wishlist = readStorage("kovaWishlist", []);
