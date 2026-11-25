@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Kova Beauty | Beauty Begins With You</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="./assets/favicon.svg" type="image/x-icon" />
+
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="./src/output.css" />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
+    />
+  </head>
+
+  <body class="overflow-x-hidden bg-ivory text-charcoal">
+    <!-- ================= HEADER ================= -->
+
+    <header
+      class="sticky top-0 z-50 border-b border-blush bg-ivory/95 backdrop-blur-md"
+    >
+      <div class="mx-auto max-w-[1600px] px-3 sm:px-5 lg:px-10">
+        <!-- TOP HEADER -->
+
+        <div
+          class="flex items-center justify-between gap-2 py-3 sm:gap-4 sm:py-4"
+        >
+          <!-- LOGO -->
+
+          <a href="index.html" class="shrink-0">
+            <img
+              src="./assets/images/Kova_Beauty_-removebg-preview.png"
+              alt="Kova Beauty Logo"
+              class="h-auto w-14 object-contain min-[375px]:w-16 sm:w-24 md:w-32 lg:w-40"
+            />
+          </a>
+
+          <!-- SEARCH BAR -->
+
+          <form
+            id="search-form"
+            class="flex min-w-0 max-w-xl flex-1 items-center rounded-full border border-[#F0D9DF] bg-blush/70 px-3 py-2 transition focus-within:border-rose sm:px-5 sm:py-3"
+          >
+            <i
+              class="fa-solid fa-magnifying-glass text-xs text-burgundy sm:text-sm"
+            ></i>
+
+            <input
+              type="search"
+              id="search-input"
+              placeholder="Search..."
+              aria-label="Search products"
+              class="w-full min-w-0 bg-transparent px-2 text-xs text-charcoal outline-none placeholder:text-[#A78B92] sm:px-3 sm:text-sm"
+            />
+
+            <button
+              type="submit"
+              class="hidden shrink-0 text-xs font-semibold text-burgundy transition hover:text-rose sm:block"
+            >
+              SEARCH
+            </button>
+          </form>
+
+          <!-- WISHLIST AND CART -->
+
+          <nav class="flex shrink-0 items-center gap-3 sm:gap-5 md:gap-7">
+            <a
+              href="#wishlist"
+              class="flex flex-col items-center text-burgundy"
+            >
+              <span class="relative">
+                <i class="fa-regular fa-heart text-base sm:text-xl"></i>
+
+                <span
+                  id="wishlist-count"
+                  class="absolute -right-3 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-rose text-[9px] text-white"
+                >
+                  0
+                </span>
+              </span>
+
+              <span class="text-[9px] sm:text-xs">Wishlist</span>
+            </a>
+
+            <a href="#cart" class="flex flex-col items-center text-burgundy">
+              <span class="relative">
+                <i class="fa-solid fa-cart-shopping text-base sm:text-xl"></i>
+
+                <span
+                  id="cart-count"
+                  class="absolute -right-3 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-rose text-[9px] text-white"
+                >
+                  0
+                </span>
+              </span>
+
+              <span class="text-[9px] sm:text-xs">Cart</span>
+            </a>
+          </nav>
+        </div>
+
+        <!-- MAIN NAVIGATION -->
+
+        <nav
+          class="flex items-center justify-start gap-6 overflow-x-auto border-t border-blush py-3 whitespace-nowrap md:justify-center md:gap-10"
+          aria-label="Main navigation"
+        >
+          <a
+            href="index.html"
+            class="shrink-0 text-[10px] font-semibold tracking-widest text-burgundy hover:text-rose sm:text-xs"
+          >
+            HOME
+          </a>
+
+          <a
+            href="#products"
+            class="shrink-0 text-[10px] font-semibold tracking-widest text-burgundy hover:text-rose sm:text-xs"
+          >
+            CATEGORIES
+          </a>
+
+          <a
+            href="#products"
+            class="shrink-0 text-[10px] font-semibold tracking-widest text-burgundy hover:text-rose sm:text-xs"
+          >
+            SHOP ALL
+          </a>
+
+          <a
+            href="#products"
+            class="shrink-0 text-[10px] font-semibold tracking-widest text-burgundy hover:text-rose sm:text-xs"
+          >
+            BEST SELLERS
+          </a>
+
+          <a
+            href="#footer"
+            class="shrink-0 text-[10px] font-semibold tracking-widest text-burgundy hover:text-rose sm:text-xs"
+          >
+            CONTACT
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main>
+      <!-- HERO SECTION -->
+
+      <section class="w-full px-3 py-3 sm:px-5 md:px-8">
+        <div
+          class="relative h-55 min-[375px]:h-65 sm:h-80 md:h-105 lg:h-130 xl:h-150 w-full overflow-hidden rounded-xl md:rounded-2xl"
+        >
+          <!-- HERO IMAGE -->
+
+          <img
+            src="./assets/images/hero-beauty.jpg"
+            alt="Kova Beauty collection"
+            class="absolute inset-0 h-full w-full object-cover object-[68%_center] sm:object-center"
+          />
+
+          <!-- IMAGE OVERLAY -->
+
+          <div
+            class="absolute inset-0 bg-linear-to-r from-[#29232A]/80 via-[#29232A]/40 to-transparent"
+          ></div>
+
+          <!-- HERO CONTENT -->
+
+          <div
+            class="relative z-10 flex h-full w-[85%] flex-col justify-center px-4 text-white min-[375px]:w-[80%] sm:w-[65%] sm:px-8 md:w-[60%] md:px-12 lg:px-16"
+          >
+            <p
+              class="mb-2 text-[9px] uppercase tracking-[2px] text-blush sm:text-xs md:mb-4 md:text-sm md:tracking-[4px]"
+            >
+              Welcome to Kova Beauty
+            </p>
+
+            <h1
+              class="mb-2 text-xl font-bold leading-tight min-[375px]:text-2xl sm:text-3xl md:mb-5 md:text-5xl lg:text-6xl"
+            >
+              Beauty begins
+              <span class="text-blush">with you.</span>
+            </h1>
+
+            <p
+              class="mb-3 max-w-md text-[10px] leading-relaxed sm:text-xs md:mb-8 md:text-base"
+            >
+              Discover beauty essentials that celebrate your uniqueness. Find
+              everything you need to glow with confidence.
+            </p>
+
+            <div>
+              <a
+                href="#products"
+                class="inline-flex items-center rounded-full bg-rose px-4 py-2 text-[10px] font-semibold text-white transition hover:bg-burgundy sm:px-6 sm:text-xs md:px-8 md:py-3 md:text-base"
+              >
+                Shop Now
+                <i class="fa-solid fa-arrow-right ml-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PRODUCTS SECTION ================= -->
+
+      <section
+        id="products"
+        class="bg-ivory px-3 py-8 min-[375px]:px-4 sm:px-6 sm:py-12 lg:px-10"
+      >
+        <!-- SECTION HEADING -->
+
+        <div
+          class="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-8"
+        >
+          <div>
+            <p class="mb-2 text-xs uppercase tracking-[3px] text-rose">
+              Your beauty collection
+            </p>
+
+            <h2
+              class="text-xl font-bold text-burgundy min-[375px]:text-2xl md:text-3xl"
+            >
+              Featured Products
+            </h2>
+
+            <p class="mt-2 text-xs text-gray-500 sm:text-sm">
+              Discover products that bring out your natural beauty.
+            </p>
+          </div>
+
+          <a
+            href="#products"
+            class="hidden items-center gap-2 text-sm font-semibold text-burgundy transition hover:text-rose sm:flex"
+          >
+            View All
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- PRODUCTS GENERATED BY JAVASCRIPT -->
+
+        <div
+          id="product-container"
+          class="grid grid-cols-1 min-[420px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6"
+        >
+          <p class="col-span-full py-10 text-center text-gray-500">
+            Loading beauty products...
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer id="footer" class="bg-charcoal text-white">
+      <!-- FOOTER LINKS -->
+
+      <div
+        class="mx-auto grid max-w-350 grid-cols-1 gap-8 px-4 py-10 min-[420px]:grid-cols-2 sm:px-6 sm:py-12 md:grid-cols-3 xl:grid-cols-5"
+      >
+        <!-- CUSTOMER SERVICE -->
+
+        <div>
+          <h3 class="mb-5 text-sm font-bold uppercase tracking-wide">
+            Let Us Help You
+          </h3>
+
+          <ul class="space-y-3 text-sm text-gray-300">
+            <li><a href="#footer" class="hover:text-rose">Help Centre</a></li>
+            <li><a href="#footer" class="hover:text-rose">How to Shop</a></li>
+            <li>
+              <a href="#footer" class="hover:text-rose">Returns and Refunds</a>
+            </li>
+            <li><a href="#footer" class="hover:text-rose">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- ABOUT KOVA -->
+
+        <div>
+          <h3 class="mb-5 text-sm font-bold uppercase tracking-wide">
+            About Kova
+          </h3>
+
+          <ul class="space-y-3 text-sm text-gray-300">
+            <li><a href="#footer" class="hover:text-rose">About Us</a></li>
+            <li>
+              <a href="#products" class="hover:text-rose">Our Products</a>
+            </li>
+            <li>
+              <a href="#products" class="hover:text-rose">Beauty Collection</a>
+            </li>
+            <li>
+              <a href="#footer" class="hover:text-rose">Privacy Policy</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- SHOPPING CATEGORIES -->
+
+        <div>
+          <h3 class="mb-5 text-sm font-bold uppercase tracking-wide">
+            Shop With Us
+          </h3>
+
+          <ul class="space-y-3 text-sm text-gray-300">
+            <li><a href="#products" class="hover:text-rose">Skincare</a></li>
+            <li><a href="#products" class="hover:text-rose">Makeup</a></li>
+            <li><a href="#products" class="hover:text-rose">Fragrance</a></li>
+            <li>
+              <a href="#products" class="hover:text-rose">Beauty Essentials</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- PAYMENT -->
+
+        <div>
+          <h3 class="mb-5 text-sm font-bold uppercase tracking-wide">
+            Payment
+          </h3>
+
+          <ul class="space-y-3 text-sm text-gray-300">
+            <li>Secure Payments</li>
+            <li>Payment Methods</li>
+            <li>Order Information</li>
+          </ul>
+        </div>
+
+        <!-- BRAND INFORMATION -->
+
+        <div>
+          <h3 class="mb-5 text-sm font-bold uppercase tracking-wide">
+            Kova Beauty
+          </h3>
+
+          <p class="text-sm leading-7 text-gray-300">
+            Discover beauty essentials that inspire confidence, elegance and
+            self-expression.
+          </p>
+
+          <p class="mt-4 text-sm font-medium italic text-rose">
+            Beauty begins with you.
+          </p>
+        </div>
+      </div>
+
+      <!-- SOCIAL MEDIA -->
+
+      <div class="border-t border-white/10">
+        <div
+          class="mx-auto flex max-w-350 flex-col items-center justify-between gap-5 px-4 py-7 text-center sm:px-6 md:flex-row md:text-left"
+        >
+          <div>
+            <h3 class="mb-3 text-sm font-bold uppercase">Follow Us</h3>
+
+            <div class="flex gap-5 text-xl text-gray-300">
+              <a
+                href="#"
+                aria-label="Instagram"
+                class="transition hover:text-rose"
+              >
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+
+              <a
+                href="#"
+                aria-label="Facebook"
+                class="transition hover:text-rose"
+              >
+                <i class="fa-brands fa-facebook"></i>
+              </a>
+
+              <a href="#" aria-label="X" class="transition hover:text-rose">
+                <i class="fa-brands fa-x-twitter"></i>
+              </a>
+
+              <a
+                href="#"
+                aria-label="YouTube"
+                class="transition hover:text-rose"
+              >
+                <i class="fa-brands fa-youtube"></i>
+              </a>
+            </div>
+          </div>
+
+          <p class="text-xs text-gray-400">
+            Shop smart. Feel beautiful. Be confident.
+          </p>
+        </div>
+      </div>
+
+      <!-- COPYRIGHT -->
+
+      <div class="border-t border-white/10 px-4 py-5 text-center">
+        <p class="text-xs text-gray-400">
+          &copy; 2026 Kova Beauty. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+
+    <script src="./script/main.js"></script>
+  </body>
+</html>

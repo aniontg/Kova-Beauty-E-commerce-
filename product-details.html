@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Product Details | Kova Beauty</title>
+    <link rel="shortcut icon" href="./assets/favicon.svg" type="image/x-icon">
+
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="./src/output.css" />
+
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
+    />
+  </head>
+
+  <body class="bg-ivory text-charcoal">
+    <!-- HEADER SECTION -->
+    <header
+      class="sticky top-0 z-50 border-b border-blush bg-blush/95 backdrop-blur-md"
+    >
+      <div
+        class="mx-auto flex max-w-350 items-center justify-between gap-4 px-4 py-4"
+      >
+        <!-- Website Logo -->
+        <a href="index.html">
+          <img
+            src="./assets/images/Kova_Beauty_-removebg-preview.png"
+            alt="Kova Beauty Logo"
+            class="h-auto w-24 sm:w-32"
+          />
+        </a>
+
+        <!-- Back to Homepage -->
+        <a
+          href="index.html"
+          class="text-sm font-semibold text-burgundy hover:text-rose"
+        >
+          <i class="fa-solid fa-arrow-left mr-2"></i>
+          Back to Shop
+        </a>
+      </div>
+    </header>
+
+    <!-- BREADCRUMB SECTION -->
+    <section class="mx-auto max-w-350 px-4 py-6">
+      <p class="text-xs text-gray-500">
+        <a href="index.html" class="hover:text-rose"> Home </a>
+
+        <span class="mx-2">/</span>
+
+        <a href="index.html#products" class="hover:text-rose"> Shop </a>
+
+        <span class="mx-2">/</span>
+
+        <span class="text-burgundy"> Product Details </span>
+      </p>
+    </section>
+
+    <!-- PRODUCT DETAILS SECTION -->
+    <main class="mx-auto max-w-350 px-4 pb-16">
+      <!-- JavaScript will display the selected product here -->
+      <div
+        id="product-details-container"
+        class="grid grid-cols-1 gap-10 md:grid-cols-2"
+      >
+        <p class="col-span-full py-20 text-center text-gray-500">
+          Loading product details...
+        </p>
+      </div>
+    </main>
+
+    <!-- FOOTER SECTION -->
+    <footer id="footer" class="bg-charcoal text-white">
+      <!-- NEWSLETTER SECTION -->
+      <div class="bg-[#3B343A] px-6 py-10">
+        <div
+          class="mx-auto flex max-w-350 flex-col justify-between gap-6 md:flex-row md:items-center"
+        >
+          <div>
+            <h2 class="text-xl font-bold tracking-wider">KOVA BEAUTY</h2>
+
+            <p class="mt-2 text-sm text-gray-300">
+              Subscribe to receive updates on new arrivals and special offers.
+            </p>
+          </div>
+
+          <form class="flex w-full max-w-lg gap-2">
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              class="min-w-0 flex-1 rounded-sm bg-white px-4 py-3 text-sm text-gray-800 outline-none"
+            />
+
+            <button
+              type="button"
+              class="rounded-sm bg-rose px-5 py-3 text-sm font-semibold text-white transition hover:bg-burgundy"
+            >
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- MAIN FOOTER LINKS -->
+      <div
+        class="mx-auto grid max-w-350 grid-cols-2 gap-10 px-6 py-12 md:grid-cols-3 lg:grid-cols-5"
+      >
+        <!-- CUSTOMER SERVICE -->
+        <div>
+          <h3 class="mb-5 text-sm font-bold uppercase tracking-wide">
+            Let Us Help You
+          </h3>
+
+          <ul class="space-y-3 text-sm text-gray-300">
+            <li>
+              <a href="#footer" class="hover:text-rose">Help Centre</a>
+            </li>
+            <li>
+              <a href="#footer" class="hover:text-rose">How to Shop</a>
+            </li>
+            <li>
+              <a href="#footer" class="hover:text-rose"
+                >Returns and Refunds</a
+              >
+            </li>
+            <li>
+              <a href="#footer" class="hover:text-rose">Contact Us</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- ABOUT KOVA -->
+        <div>
+          <h3 class="mb-5 text-sm font-bold uppercase tracking-wide">
+            About Kova
+          </h3>
+
+          <ul class="space-y-3 text-sm text-gray-300">
+            <li><a href="#footer" class="hover:text-rose">About Us</a></li>
+            <li>
+              <a href="index.html#products" class="hover:text-rose"
+                >Our Products</a
+              >
+            </li>
+            <li>
+              <a href="index.html#products" class="hover:text-rose"
+                >Beauty Collection</a
+              >
+            </li>
+            <li>
+              <a href="#footer" class="hover:text-rose">Privacy Policy</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- SHOPPING CATEGORIES -->
+        <div>
+          <h3 class="mb-5 text-sm font-bold uppercase tracking-wide">
+            Shop With Us
+          </h3>
+
+          <ul class="space-y-3 text-sm text-gray-300">
+            <li>
+              <a href="index.html#products" class="hover:text-rose"
+                >Skincare</a
+              >
+            </li>
+            <li>
+              <a href="index.html#products" class="hover:text-rose"
+                >Makeup</a
+              >
+            </li>
+            <li>
+              <a href="index.html#products" class="hover:text-rose"
+                >Fragrance</a
+              >
+            </li>
+            <li>
+              <a href="index.html#products" class="hover:text-rose"
+                >Beauty Essentials</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- PAYMENT INFORMATION -->
+        <div>
+          <h3 class="mb-5 text-sm font-bold uppercase tracking-wide">
+            Payment
+          </h3>
+
+          <ul class="space-y-3 text-sm text-gray-300">
+            <li>Secure Payments</li>
+            <li>Payment Methods</li>
+            <li>Order Information</li>
+          </ul>
+        </div>
+
+        <!-- BRAND INFORMATION -->
+        <div>
+          <h3 class="mb-5 text-sm font-bold uppercase tracking-wide">
+            Kova Beauty
+          </h3>
+
+          <p class="text-sm leading-7 text-gray-300">
+            Discover beauty essentials that inspire confidence, elegance and
+            self-expression.
+          </p>
+
+          <p class="mt-4 text-sm font-medium italic text-rose">
+            Beauty begins with you.
+          </p>
+        </div>
+      </div>
+
+      <!-- SOCIAL MEDIA SECTION -->
+      <div class="border-t border-white/10">
+        <div
+          class="mx-auto flex max-w-350 flex-col items-center justify-between gap-5 px-6 py-7 md:flex-row"
+        >
+          <div>
+            <h3 class="mb-3 text-sm font-bold uppercase">Follow Us</h3>
+
+            <div class="flex gap-5 text-xl text-gray-300">
+              <a href="#" aria-label="Instagram" class="hover:text-rose">
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+
+              <a href="#" aria-label="Facebook" class="hover:text-rose">
+                <i class="fa-brands fa-facebook"></i>
+              </a>
+
+              <a href="#" aria-label="X" class="hover:text-rose">
+                <i class="fa-brands fa-x-twitter"></i>
+              </a>
+
+              <a href="#" aria-label="YouTube" class="hover:text-rose">
+                <i class="fa-brands fa-youtube"></i>
+              </a>
+            </div>
+          </div>
+
+          <p class="text-xs text-gray-400">
+            Shop smart. Feel beautiful. Be confident.
+          </p>
+        </div>
+      </div>
+
+      <!-- COPYRIGHT -->
+      <div class="border-t border-white/10 px-6 py-5 text-center">
+        <p class="text-xs text-gray-400">
+          &copy; 2026 Kova Beauty. All rights reserved.
+        </p>
+      </div>
+    </footer>
+    <!-- JavaScript File -->
+    <script src="./script/product-details.js"></script>
+  </body>
+</html>
