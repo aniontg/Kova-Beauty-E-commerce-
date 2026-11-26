@@ -1,16 +1,16 @@
 
+// KOVA BEAUTY - PRODUCT DETAILS PAGE
+
+
+// 1. SELECT HTML ELEMENTS
 const detailsContainer = document.querySelector("#product-details-container");
 
 const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");
 
 
-// 2. SHOW ERROR MESSAGE
-// ==========================================
-
+// 2. SHOW MESSAGE
 function showMessage(message) {
-  if (!detailsContainer) return;
-
   detailsContainer.innerHTML = `
     <div class="col-span-full py-16 text-center">
       <p class="font-semibold text-burgundy">${message}</p>
@@ -25,17 +25,12 @@ function showMessage(message) {
 
 
 // 3. SHOW TOAST MESSAGE
-// ==========================================
-
 function showToast(message) {
   let toast = document.querySelector("#store-toast");
 
-  // Creates the toast if it does not exist
   if (!toast) {
     toast = document.createElement("div");
-
     toast.id = "store-toast";
-    toast.setAttribute("role", "status");
 
     toast.className =
       "fixed bottom-4 left-4 right-4 z-[3000] mx-auto w-fit max-w-[calc(100%-2rem)] rounded-xl bg-burgundy px-5 py-3 text-center text-sm text-white shadow-xl sm:bottom-6 sm:left-auto sm:right-6";
@@ -46,10 +41,8 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.remove("hidden");
 
-  // Clear the previous timer
   clearTimeout(window.kovaToastTimer);
 
-  // Hide the toast after 2.6 seconds
   window.kovaToastTimer = setTimeout(function () {
     toast.classList.add("hidden");
   }, 2600);
@@ -57,23 +50,13 @@ function showToast(message) {
 
 
 // 4. UPDATE CART COUNT
-// ==========================================
-
 function updateCartCount() {
   const countElement = document.querySelector("#cart-count");
 
   if (!countElement) return;
 
-  let cart = [];
+  const cart = JSON.parse(localStorage.getItem("kovaCart")) || [];
 
-  // Get cart data from localStorage
-  try {
-    cart = JSON.parse(localStorage.getItem("kovaCart")) || [];
-  } catch (error) {
-    cart = [];
-  }
-
-  // Calculate the total quantity of products
   let totalItems = 0;
 
   cart.forEach(function (item) {
@@ -85,34 +68,25 @@ function updateCartCount() {
 
 
 // 5. DISPLAY PRODUCT DETAILS
-// ==========================================
-
 function renderProduct(product) {
 
-  // Get product discount
+  // Product discount
   const discount = Number(product.discountPercentage || 0);
 
-  // Calculate the original price
   let oldPrice = null;
 
   if (discount > 0 && discount < 100) {
     oldPrice = product.price / (1 - discount / 100);
   }
 
-  // Get product images
-  let images = [];
 
-  if (Array.isArray(product.images) && product.images.length > 0) {
-    images = product.images;
-  } else {
-    images = [product.thumbnail];
-  }
+  // Product images
+  let images = product.images || [product.thumbnail];
 
-  // Starting quantity
   let quantity = 1;
 
 
-  // DISPLAY PRODUCT HTML
+  // Display product information
   detailsContainer.innerHTML = `
     <section class="min-w-0">
 
@@ -129,30 +103,28 @@ function renderProduct(product) {
       </div>
 
 
-      <!-- Product Image Thumbnails -->
+      <!-- Product Thumbnails -->
       <div id="product-thumbnails"
         class="mt-3 flex gap-3 overflow-x-auto pb-2">
 
         ${images.map(function (image, index) {
 
-          let borderClass = "border-[#F0D9DF]";
+          let border = "border-[#F0D9DF]";
 
           if (index === 0) {
-            borderClass = "border-burgundy";
+            border = "border-burgundy";
           }
 
           return `
             <button
               type="button"
               data-image-index="${index}"
-              aria-label="Show product image ${index + 1}"
-              class="h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 ${borderClass} bg-white p-1 sm:h-20 sm:w-20"
+              class="h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 ${border} bg-white p-1 sm:h-20 sm:w-20"
             >
 
               <img
                 src="${image}"
                 alt=""
-                loading="lazy"
                 class="h-full w-full object-contain"
               >
 
@@ -187,16 +159,14 @@ function renderProduct(product) {
       </p>
 
 
-      <!-- Product Rating -->
+      <!-- Rating -->
       <div class="mt-4 flex flex-wrap items-center gap-2 text-sm">
 
         <span class="text-amber-500">
-          <i class="fa-solid fa-star" aria-hidden="true"></i>
+          <i class="fa-solid fa-star"></i>
         </span>
 
-        <strong>
-          ${Number(product.rating || 0).toFixed(1)}
-        </strong>
+        <strong>${Number(product.rating || 0).toFixed(1)}</strong>
 
         <span class="text-gray-500">
           ${(product.reviews || []).length} reviews
@@ -205,7 +175,7 @@ function renderProduct(product) {
       </div>
 
 
-      <!-- Product Price -->
+      <!-- Price -->
       <div class="mt-5 flex flex-wrap items-center gap-3">
 
         <span class="text-2xl font-bold text-burgundy sm:text-3xl">
@@ -225,7 +195,7 @@ function renderProduct(product) {
       </div>
 
 
-      <!-- Product Description -->
+      <!-- Description -->
       <div class="mt-6 border-t border-[#F0D9DF] pt-5">
 
         <h2 class="font-semibold text-charcoal">
@@ -239,7 +209,7 @@ function renderProduct(product) {
       </div>
 
 
-      <!-- Product Information -->
+      <!-- Additional Information -->
       <div class="mt-5 space-y-3 border-t border-[#F0D9DF] pt-5 text-sm">
 
         <p>
@@ -260,7 +230,7 @@ function renderProduct(product) {
       </div>
 
 
-      <!-- PRODUCT QUANTITY -->
+      <!-- Quantity -->
       <div class="mt-6 flex flex-wrap items-center gap-4">
 
         <span class="text-sm font-semibold">
@@ -272,7 +242,6 @@ function renderProduct(product) {
           <button
             type="button"
             id="quantity-minus"
-            aria-label="Decrease quantity"
             class="px-4 py-3 text-burgundy hover:text-rose"
           >
             <i class="fa-solid fa-minus"></i>
@@ -286,7 +255,6 @@ function renderProduct(product) {
           <button
             type="button"
             id="quantity-plus"
-            aria-label="Increase quantity"
             class="px-4 py-3 text-burgundy hover:text-rose"
           >
             <i class="fa-solid fa-plus"></i>
@@ -301,7 +269,7 @@ function renderProduct(product) {
       </div>
 
 
-      <!-- ADD TO CART BUTTON -->
+      <!-- Add to Cart -->
       <button
         type="button"
         id="details-add-to-cart"
@@ -309,7 +277,7 @@ function renderProduct(product) {
         class="mt-6 w-full rounded-full bg-burgundy px-6 py-4 text-sm font-semibold tracking-wider text-white transition hover:bg-rose disabled:cursor-not-allowed disabled:opacity-50 sm:max-w-md"
       >
 
-        <i class="fa-solid fa-bag-shopping mr-2" aria-hidden="true"></i>
+        <i class="fa-solid fa-bag-shopping mr-2"></i>
 
         ${product.stock < 1 ? "OUT OF STOCK" : "ADD TO CART"}
 
@@ -320,10 +288,7 @@ function renderProduct(product) {
 
 
   // 6. CHANGE PRODUCT IMAGES
-  // ==========================================
-
   const mainImage = document.querySelector("#main-product-image");
-
   const thumbnails = document.querySelector("#product-thumbnails");
 
   thumbnails.addEventListener("click", function (event) {
@@ -332,22 +297,17 @@ function renderProduct(product) {
 
     if (!button) return;
 
-    // Get the selected image
-    const imageIndex = Number(button.dataset.imageIndex);
+    const index = Number(button.dataset.imageIndex);
 
-    mainImage.src = images[imageIndex];
+    mainImage.src = images[index];
 
+    const buttons = thumbnails.querySelectorAll("button");
 
-    // Reset all thumbnail borders
-    const allButtons = thumbnails.querySelectorAll("button");
-
-    allButtons.forEach(function (item) {
+    buttons.forEach(function (item) {
       item.classList.remove("border-burgundy");
       item.classList.add("border-[#F0D9DF]");
     });
 
-
-    // Highlight the selected thumbnail
     button.classList.add("border-burgundy");
     button.classList.remove("border-[#F0D9DF]");
 
@@ -355,12 +315,9 @@ function renderProduct(product) {
 
 
   // 7. INCREASE AND DECREASE QUANTITY
-  // ==========================================
-
   const quantityValue = document.querySelector("#quantity-value");
 
   const minusButton = document.querySelector("#quantity-minus");
-
   const plusButton = document.querySelector("#quantity-plus");
 
 
@@ -389,29 +346,19 @@ function renderProduct(product) {
 
 
   // 8. ADD PRODUCT TO CART
-  // ==========================================
-
   const addToCartButton = document.querySelector("#details-add-to-cart");
 
   addToCartButton.addEventListener("click", function () {
 
-    let cart = [];
-
-    // Get existing cart
-    try {
-      cart = JSON.parse(localStorage.getItem("kovaCart")) || [];
-    } catch (error) {
-      cart = [];
-    }
+    let cart = JSON.parse(localStorage.getItem("kovaCart")) || [];
 
 
-    // Check if the product is already in the cart
+    // Check if product is already in cart
     const existingProduct = cart.find(function (item) {
       return item.id === product.id;
     });
 
 
-    // Get the quantity already in the cart
     let alreadyInCart = 0;
 
     if (existingProduct) {
@@ -419,23 +366,21 @@ function renderProduct(product) {
     }
 
 
-    // Check available stock
+    // Check product stock
     if (alreadyInCart + quantity > product.stock) {
-
       showToast("There isn't enough stock for that quantity.");
-
       return;
     }
 
 
-    // Update existing product quantity
+    // Update existing product
     if (existingProduct) {
 
       existingProduct.quantity += quantity;
 
     } else {
 
-      // Add a new product to the cart
+      // Add new product
       cart.push({
         id: product.id,
         title: product.title,
@@ -447,15 +392,11 @@ function renderProduct(product) {
     }
 
 
-    // Save cart to localStorage
+    // Save cart
     localStorage.setItem("kovaCart", JSON.stringify(cart));
 
-
-    // Update cart count
     updateCartCount();
 
-
-    // Show success message
     showToast(`${product.title} added to your cart.`);
 
   });
@@ -464,66 +405,22 @@ function renderProduct(product) {
 
 
 // 9. LOAD PRODUCT FROM API
-// ==========================================
-
 async function loadProduct() {
 
   if (!detailsContainer) return;
 
+  const response = await fetch(
+    `https://dummyjson.com/products/${productId}`
+  );
 
-  // Check if the product ID is valid
-  if (!productId || !/^\d+$/.test(productId)) {
+  const product = await response.json();
 
-    showMessage("Invalid product selection.");
-
-    return;
-  }
-
-
-  try {
-
-    // Request product information from the API
-    const response = await fetch(
-      `https://dummyjson.com/products/${productId}`
-    );
-
-
-    // Check if the request was successful
-    if (!response.ok) {
-      throw new Error("Product not found.");
-    }
-
-
-    // Convert response to JavaScript data
-    const product = await response.json();
-
-
-    // Check if product exists
-    if (!product.id) {
-      throw new Error("Product not found.");
-    }
-
-
-    // Display product information
-    renderProduct(product);
-
-
-  } catch (error) {
-
-    console.error(error);
-
-    showMessage("We couldn't load this product. Please try again.");
-
-  }
+  renderProduct(product);
 
 }
 
 
 // 10. START THE PAGE
-// ==========================================
-
-// Update shopping cart count
 updateCartCount();
 
-// Load the selected product
 loadProduct();

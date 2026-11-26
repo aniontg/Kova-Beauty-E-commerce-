@@ -1,81 +1,52 @@
+// KOVA BEAUTY - PRODUCT PAGE
 
 const productsContainer = document.querySelector("#product-container");
 const cartCount = document.querySelector("#cart-count");
 const wishlistCount = document.querySelector("#wishlist-count");
-const searchForm = document.querySelector("#search-form");
 const searchInput = document.querySelector("#search-input");
+const searchForm = document.querySelector("#search-form");
 
 let products = [];
-let cart = readStorage("kovaCart", []);
-let wishlist = readStorage("kovaWishlist", []);
+let cart = JSON.parse(localStorage.getItem("kovaCart")) || [];
+let wishlist = JSON.parse(localStorage.getItem("kovaWishlist")) || [];
 
-// ==========================================
-// LOCAL STORAGE FUNCTIONS
-// ==========================================
-
-function readStorage(key, fallback) {
-  try {
-    const value = JSON.parse(localStorage.getItem(key));
-    return value ?? fallback;
-  } catch {
-    return fallback;
-  }
-}
-
-function saveStorage(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
-
-// ==========================================
-// PRICE FORMATTING
-// ==========================================
+// FORMAT PRICE
 
 function formatPrice(price) {
-  return `$${Number(price || 0).toFixed(2)}`;
+  return `$${Number(price).toFixed(2)}`;
 }
 
-// ==========================================
-// CART COUNT
-// ==========================================
+// SAVE CART AND WISHLIST
 
-function updateCartCount() {
-  if (!cartCount) return;
+function saveData() {
+  localStorage.setItem("kovaCart", JSON.stringify(cart));
+  localStorage.setItem("kovaWishlist", JSON.stringify(wishlist));
+}
 
+// UPDATE COUNTS
+
+function updateCounts() {
   let total = 0;
 
-  cart.forEach(function (item) {
-    total += Number(item.quantity || 0);
+  cart.forEach((item) => {
+    total += item.quantity;
   });
 
   cartCount.textContent = total;
+  wishlistCount.textContent = wishlist.length;
 }
 
-// ==========================================
-// WISHLIST COUNT
-// ==========================================
-
-function updateWishlistCount() {
-  if (wishlistCount) {
-    wishlistCount.textContent = wishlist.length;
-  }
-}
-
-// ==========================================
-// TOAST NOTIFICATION
-// ==========================================
+// SHOW TOAST MESSAGE
 
 function showToast(message) {
   let toast = document.querySelector("#store-toast");
 
   if (!toast) {
     toast = document.createElement("div");
-
     toast.id = "store-toast";
-    toast.setAttribute("role", "status");
-    toast.setAttribute("aria-live", "polite");
 
     toast.className =
-      "fixed bottom-4 left-4 right-4 z-[3000] mx-auto w-fit max-w-[calc(100%-2rem)] rounded-xl bg-burgundy px-5 py-3 text-center text-sm text-white shadow-xl sm:bottom-6 sm:left-auto sm:right-6";
+      "fixed bottom-4 left-4 right-4 z-[3000] mx-auto w-fit rounded-xl bg-burgundy px-5 py-3 text-sm text-white shadow-xl";
 
     document.body.appendChild(toast);
   }
@@ -83,149 +54,122 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.remove("hidden");
 
-  window.clearTimeout(window.kovaToastTimer);
+  clearTimeout(window.kovaToastTimer);
 
-  window.kovaToastTimer = window.setTimeout(() => {
+  window.kovaToastTimer = setTimeout(() => {
     toast.classList.add("hidden");
   }, 2600);
 }
 
-// ==========================================
-// PROMOTIONAL BANNER
-// ==========================================
+// DISPLAY PROMOTIONAL BANNER
 
 function displayPromoBanner() {
   const banner = document.createElement("a");
 
   banner.href = "#products";
-
-  banner.className =
-    "group col-span-full block overflow-hidden rounded-2xl border border-[#F0D9DF] bg-blush";
-
-  banner.setAttribute("aria-label", "Explore the Kova Beauty collection");
+  banner.className = "col-span-full block overflow-hidden rounded-2xl";
 
   banner.innerHTML = `
     <img
       src="./assets/images/Promotion-banner.jpg"
-      alt="Kova Beauty — reveal your natural radiance"
-      loading="lazy"
-      class="aspect-16/5 max-h-56 w-full object-cover transition duration-500 group-hover:scale-[1.01] sm:aspect-16/4"
+      alt="Kova Beauty Promotion"
+      class="w-full rounded-2xl"
     >
   `;
 
   productsContainer.appendChild(banner);
 }
 
-// ==========================================
-// PRODUCT CARD
-// ==========================================
+// CREATE PRODUCT CARD
 
 function productCard(product) {
-  const discount = Math.round(Number(product.discountPercentage || 0));
-
+  const discount = Math.round(product.discountPercentage || 0);
   const hasDiscount = discount > 0 && discount < 100;
 
-  const oldPrice = hasDiscount
-    ? Number(product.price) / (1 - discount / 100)
-    : null;
+  const oldPrice = product.price / (1 - discount / 100);
 
   const wishlisted = wishlist.includes(product.id);
 
-  const outOfStock = Number(product.stock) < 1;
-
   return `
-    <article class="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#F0D9DF] bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <article class="group flex flex-col overflow-hidden rounded-2xl border border-[#F0D9DF] bg-white">
 
-      <!-- Product Image -->
-      <div class="relative flex h-48 items-center justify-center overflow-hidden bg-blush/50 p-4 sm:h-56 lg:h-60">
+      <div class="relative flex h-48 items-center justify-center bg-blush/50 p-4 sm:h-56">
 
         <img
           src="${product.thumbnail}"
           alt="${product.title}"
+          class="h-full w-full object-contain"
           loading="lazy"
-          class="h-full w-full object-contain transition duration-500 group-hover:scale-105"
         >
 
         ${
           hasDiscount
-            ? `<span class="absolute left-3 top-3 rounded-full bg-burgundy px-3 py-1 text-[10px] font-bold text-white">${discount}% OFF</span>`
+            ? `
+          <span class="absolute left-3 top-3 rounded-full bg-burgundy px-3 py-1 text-xs text-white">
+            ${discount}% OFF
+          </span>
+        `
             : ""
         }
 
-        <!-- Wishlist Button -->
         <button
           type="button"
           data-action="wishlist"
           data-id="${product.id}"
           aria-label="${wishlisted ? "Remove from wishlist" : "Add to wishlist"}"
           aria-pressed="${wishlisted}"
-          class="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white text-burgundy shadow transition hover:bg-blush focus:outline-none focus:ring-2 focus:ring-rose"
+          class="absolute right-3 top-3 rounded-full bg-white p-3 text-burgundy shadow"
         >
-
-          <i
-            class="${wishlisted ? "fa-solid" : "fa-regular"} fa-heart"
-            aria-hidden="true"
-          ></i>
-
+          <i class="${wishlisted ? "fa-solid" : "fa-regular"} fa-heart"></i>
         </button>
 
       </div>
 
-      <!-- Product Information -->
       <div class="flex flex-1 flex-col p-4">
 
-        <p class="text-[10px] uppercase tracking-[0.18em] text-rose">
+        <p class="text-xs uppercase text-rose">
           ${product.brand || "Kova Beauty"}
         </p>
 
-        <h3 class="mt-2 line-clamp-2 min-h-10 text-sm font-semibold leading-5 text-burgundy">
+        <h3 class="mt-2 text-sm font-semibold text-burgundy">
           ${product.title}
         </h3>
 
-        <p class="mt-2 line-clamp-2 text-xs leading-5 text-gray-500">
+        <p class="mt-2 text-xs text-gray-500">
           ${product.description}
         </p>
 
-        <!-- Rating and Stock -->
-        <div class="mt-3 flex items-center gap-2 text-xs">
-
-          <span class="text-amber-500">
-            <i class="fa-solid fa-star" aria-hidden="true"></i>
-          </span>
-
-          <span class="font-semibold">
-            ${Number(product.rating || 0).toFixed(1)}
-          </span>
-
-          <span class="text-gray-400">
-            ${Number(product.stock || 0)} in stock
-          </span>
-
+        <div class="mt-3 flex gap-2 text-xs">
+          <span class="text-amber-500">★</span>
+          <span>${product.rating}</span>
+          <span class="text-gray-400">${product.stock} in stock</span>
         </div>
 
-        <!-- Product Price -->
-        <div class="mt-3 flex flex-wrap items-center gap-2">
+        <div class="mt-3 flex items-center gap-2">
 
-          <span class="text-base font-bold text-burgundy">
+          <span class="font-bold text-burgundy">
             ${formatPrice(product.price)}
           </span>
 
           ${
             hasDiscount
-              ? `<span class="text-xs text-gray-400 line-through">${formatPrice(oldPrice)}</span>`
+              ? `
+            <span class="text-xs text-gray-400 line-through">
+              ${formatPrice(oldPrice)}
+            </span>
+          `
               : ""
           }
 
         </div>
 
-        <!-- Product Actions -->
         <div class="mt-auto pt-4">
 
           <button
             type="button"
             data-action="details"
             data-id="${product.id}"
-            class="w-full rounded-full border border-burgundy py-2.5 text-xs font-semibold text-burgundy transition hover:bg-blush focus:outline-none focus:ring-2 focus:ring-rose"
+            class="w-full rounded-full border border-burgundy py-2 text-xs text-burgundy"
           >
             VIEW DETAILS
           </button>
@@ -234,184 +178,116 @@ function productCard(product) {
             type="button"
             data-action="cart"
             data-id="${product.id}"
-            ${outOfStock ? "disabled" : ""}
-            class="mt-2 w-full rounded-full bg-burgundy py-2.5 text-xs font-semibold text-white transition hover:bg-rose disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-rose focus:ring-offset-2"
+            ${product.stock < 1 ? "disabled" : ""}
+            class="mt-2 w-full rounded-full bg-burgundy py-2 text-xs text-white disabled:opacity-50"
           >
-            ${outOfStock ? "OUT OF STOCK" : "ADD TO CART"}
+            ${product.stock < 1 ? "OUT OF STOCK" : "ADD TO CART"}
           </button>
 
         </div>
 
       </div>
-
     </article>
   `;
 }
 
-// ==========================================
 // DISPLAY PRODUCTS
-// ==========================================
 
-function displayProducts(list, includeBanner = true) {
-  if (!productsContainer) return;
-
+function displayProducts(list, showBanner = true) {
   productsContainer.innerHTML = "";
 
-  if (!list.length) {
+  if (list.length === 0) {
     productsContainer.innerHTML = `
-      <p class="col-span-full rounded-2xl bg-white px-5 py-12 text-center text-sm text-gray-500">
+      <p class="col-span-full py-12 text-center text-gray-500">
         No products found. Try another search.
       </p>
     `;
-
     return;
   }
 
   productsContainer.innerHTML = list.map(productCard).join("");
 
-  if (includeBanner && list.length > 4) {
+  if (showBanner && list.length > 4) {
     displayPromoBanner();
   }
 }
 
-// ==========================================
-// SEARCH AND FILTER PRODUCTS
-// ==========================================
+// SEARCH PRODUCTS
 
 function filterProducts(query) {
-  const term = query.trim().toLowerCase();
+  const term = query.toLowerCase().trim();
 
-  if (!term) return products;
-
-  return products.filter((product) =>
-    [product.title, product.brand, product.category, product.description].some(
-      (value) =>
-        String(value || "")
-          .toLowerCase()
-          .includes(term),
-    ),
+  return products.filter(
+    (product) =>
+      product.title.toLowerCase().includes(term) ||
+      product.brand.toLowerCase().includes(term) ||
+      product.category.toLowerCase().includes(term) ||
+      product.description.toLowerCase().includes(term),
   );
 }
 
-// ==========================================
 // LOAD PRODUCTS FROM API
-// ==========================================
 
 async function loadProducts() {
-  if (!productsContainer) return;
+  const response = await fetch(
+    "https://dummyjson.com/products/category/beauty?limit=30",
+  );
 
-  try {
-    const response = await fetch("https://dummyjson.com/products?limit=30");
+  const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error("Could not load products.");
-    }
+  products = data.products;
 
-    const data = await response.json();
-
-    products = Array.isArray(data.products) ? data.products : [];
-
-    displayProducts(products);
-  } catch (error) {
-    console.error(error);
-
-    productsContainer.innerHTML = `
-      <div class="col-span-full rounded-2xl border border-[#F0D9DF] bg-white px-5 py-12 text-center">
-
-        <p class="font-semibold text-burgundy">
-          We couldn't load the products.
-        </p>
-
-        <p class="mt-2 text-sm text-gray-500">
-          Please check your internet connection and refresh the page.
-        </p>
-
-        <button
-          id="retry-products"
-          class="mt-4 rounded-full bg-burgundy px-5 py-2.5 text-sm font-semibold text-white hover:bg-rose"
-        >
-          Try again
-        </button>
-
-      </div>
-    `;
-  }
+  displayProducts(products);
 }
 
-// ==========================================
-// SEARCH FORM EVENT
-// ==========================================
+// SEARCH EVENTS
 
-searchForm?.addEventListener("submit", (e) => {
-  e.preventDefault();
+searchForm.addEventListener("submit", (event) => {
+  event.preventDefault();
 
-  displayProducts(filterProducts(searchInput?.value || ""));
+  const results = filterProducts(searchInput.value);
+
+  displayProducts(results);
 });
 
-// ==========================================
-// LIVE SEARCH EVENT
-// ==========================================
+searchInput.addEventListener("input", () => {
+  const results = filterProducts(searchInput.value);
 
-searchInput?.addEventListener("input", () => {
-  displayProducts(filterProducts(searchInput.value));
+  displayProducts(results);
 });
 
-// ==========================================
-// PRODUCT ACTIONS
-// CART, WISHLIST AND PRODUCT DETAILS
-// ==========================================
+// PRODUCT BUTTON EVENTS
 
-productsContainer?.addEventListener("click", (e) => {
-  // Retry Loading Products
-  const retryButton = e.target.closest("#retry-products");
-
-  if (retryButton) {
-    loadProducts();
-    return;
-  }
-
-  // Find Product Action Button
-  const button = e.target.closest("button[data-action]");
+productsContainer.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-action]");
 
   if (!button) return;
 
-  const productId = Number(button.dataset.id);
+  const id = Number(button.dataset.id);
 
-  const product = products.find((item) => item.id === productId);
-
-  if (!product) return;
+  const product = products.find((item) => item.id === id);
 
   const action = button.dataset.action;
 
-  // ========================================
   // VIEW PRODUCT DETAILS
-  // ========================================
 
   if (action === "details") {
-    window.location.href = `product-details.html?id=${productId}`;
-    return;
+    window.location.href = `product-details.html?id=${id}`;
   }
 
-  // ========================================
-  // ADD PRODUCT TO CART
-  // ========================================
+  // ADD TO CART
 
   if (action === "cart") {
-    const existing = cart.find((item) => item.id === productId);
+    const existing = cart.find((item) => item.id === id);
 
-    const currentQuantity = existing?.quantity || 0;
-
-    // Check Available Stock
-    if (currentQuantity >= product.stock) {
-      showToast("You have reached the available stock.");
-      return;
-    }
-
-    // Update Existing Cart Item
     if (existing) {
-      existing.quantity += 1;
+      if (existing.quantity >= product.stock) {
+        showToast("You have reached the available stock.");
+        return;
+      }
+
+      existing.quantity++;
     } else {
-      // Add New Cart Item
       cart.push({
         id: product.id,
         title: product.title,
@@ -421,51 +297,33 @@ productsContainer?.addEventListener("click", (e) => {
       });
     }
 
-    // Save Cart
-    saveStorage("kovaCart", cart);
-
-    updateCartCount();
+    saveData();
+    updateCounts();
 
     showToast(`${product.title} added to your cart.`);
-
-    return;
   }
 
-  // ========================================
   // ADD OR REMOVE FROM WISHLIST
-  // ========================================
 
   if (action === "wishlist") {
-    if (wishlist.includes(productId)) {
-      // Remove From Wishlist
-      wishlist = wishlist.filter((id) => id !== productId);
+    if (wishlist.includes(id)) {
+      wishlist = wishlist.filter((item) => item !== id);
 
       showToast("Removed from your wishlist.");
     } else {
-      // Add To Wishlist
-      wishlist.push(productId);
+      wishlist.push(id);
 
       showToast(`${product.title} added to your wishlist.`);
     }
 
-    // Save Wishlist
-    saveStorage("kovaWishlist", wishlist);
+    saveData();
+    updateCounts();
 
-    updateWishlistCount();
-
-    displayProducts(filterProducts(searchInput?.value || ""), false);
+    displayProducts(filterProducts(searchInput.value), false);
   }
 });
 
-// ==========================================
-// INITIALIZE STORE
-// ==========================================
+// START STORE
 
-// Update Cart Count
-updateCartCount();
-
-// Update Wishlist Count
-updateWishlistCount();
-
-// Load Products
+updateCounts();
 loadProducts();
