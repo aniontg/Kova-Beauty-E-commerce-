@@ -230,7 +230,7 @@ function filterProducts(query) {
 
 async function loadProducts() {
   const response = await fetch(
-    "https://dummyjson.com/products/category/beauty?limit=30",
+    "https://dummyjson.com/products?limit=200",
   );
 
   const data = await response.json();
