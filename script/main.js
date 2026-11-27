@@ -67,7 +67,7 @@ function displayPromoBanner() {
   const banner = document.createElement("a");
 
   banner.href = "#products";
-  banner.className = "col-span-full block overflow-hidden rounded-2xl";
+  banner.className = "col-span-full block overflow-hidden rounded-2xl h-57.5";
 
   banner.innerHTML = `
     <img
